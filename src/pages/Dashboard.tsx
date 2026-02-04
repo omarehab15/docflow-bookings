@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Calendar, Clock, Users, Plus, LogOut, Settings, BarChart3 } from "lucide-react";
+import { Calendar, Clock, Users, LogOut, Settings, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import AvailabilityManager from "@/components/dashboard/AvailabilityManager";
 import AppointmentsList from "@/components/dashboard/AppointmentsList";
 import DashboardStats from "@/components/dashboard/DashboardStats";
+import SettingsPanel from "@/components/dashboard/SettingsPanel";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<"overview" | "availability" | "appointments">("overview");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-secondary/30">
@@ -69,7 +71,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex gap-2 mt-2">
-            <Button variant="ghost" size="sm" className="flex-1">
+            <Button variant="ghost" size="sm" className="flex-1" onClick={() => setSettingsOpen(true)}>
               <Settings className="w-4 h-4" />
             </Button>
             <Button variant="ghost" size="sm" className="flex-1" asChild>
@@ -90,7 +92,7 @@ const Dashboard = () => {
           <span className="font-bold text-foreground">MediBook</span>
         </Link>
         <div className="flex gap-2">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
             <Settings className="w-5 h-5" />
           </Button>
           <Button variant="ghost" size="icon" asChild>
@@ -140,6 +142,9 @@ const Dashboard = () => {
           {activeTab === "appointments" && <AppointmentsList />}
         </div>
       </main>
+
+      {/* Settings Panel */}
+      <SettingsPanel open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   );
 };
